@@ -1,4 +1,6 @@
 import streamlit as st
+import pymysql
+import pymysql.cursors
 import boto3
 import uuid
 import pandas as pd
@@ -7,10 +9,10 @@ from datetime import datetime
 
 # Set page config and dark green theme
 st.set_page_config(
-    page_title="BudgetBuilder Upload",
-    page_icon="💰",
+    page_title="BudgetBuilder Email",
+    page_icon="📬",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 #######################
@@ -78,12 +80,24 @@ with st.sidebar:
 
 #######################
 # Header & Branding
-st.markdown('<div class="logo">Send Outreach Emails</div>', unsafe_allow_html=True)
+st.markdown('<div class="logo">📬 Send Outreach Emails</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Smart Transactions Start Here</div>', unsafe_allow_html=True)
 
 #######################
-# Upload Page Content inside card
-
+# Database connection
+def db_connection():
+    try:
+        connection = pymysql.connect(
+            host=st.secrets["mysql"]["host"],
+            port=st.secrets["mysql"]["port"],
+            user=st.secrets["mysql"]["user"],
+            password=st.secrets["mysql"]["password"],
+        )
+        print("Successfully connected to the database!")
+        return connection
+    except pymysql.MySQLError as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 #######################
 # Footer / Contributors
@@ -91,6 +105,6 @@ st.markdown("""
     <div class="footer">
         Created by Michael Maaseide, Sam Baldwin, Alex Tu, and Jeffrey Krapf<br>
         Northeastern University · TransactionTracker
-        
+
     </div>
 """, unsafe_allow_html=True)

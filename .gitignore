@@ -48,4 +48,7 @@ htmlcov/
 
 # Project specific
 # data-news-articles/
-uploads/ 
+uploads/
+
+# streamlit secrets (RDS connection info)
+.streamlit/secrets.toml
